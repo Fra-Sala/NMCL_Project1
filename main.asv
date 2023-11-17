@@ -15,19 +15,17 @@ h0 = @(x) 1+0.5*sin(pi*x);
 m0 = @(x) 0.5*sin(pi*x);
 % Number of grid points
 N = 100;
+% Number of time steps
+k = CFL*(xspan(2)-xspan(1))/(N+1)*1/(u+sqrt(g*1.5));
+K = (tspan(end)-tspan(1));
 % Velocity
 u = 0.25;
-% Number of time steps
-CFL = 0.5;
-k = CFL*(xspan(2)-xspan(1))/(N+1)*1/(u+sqrt(g*1.5));
-K = round((tspan(end)-tspan(1))/k);
-
 % Source function
 S = @(x,t) [pi/2*(u-1)*cos(pi*(x-t)); 
             pi/2*cos(pi*(x-t))*(-u+u^2+g*h0(x-t))];
 
 bc = 'periodic';
-[h, m, tvec, xvec] = lax_friedrich(xspan, tspan, N, K, h0, m0, @flux_phys, S, bc);
+[h, m, tvec, xvec] = lax_friedrich(xspan, tspan, N, M, h0, m0, @flux_phys, S, bc);
 
 
 for i=1:length(tvec)
