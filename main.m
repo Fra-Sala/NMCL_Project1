@@ -8,7 +8,7 @@ clc
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-%% 1.1
+%% SECTION 1.1
 % Definition of parameters
 g = 1;
 u = 0.25;
@@ -35,15 +35,15 @@ K = round((tspan(end) - tspan(1)) / k);
 S = @(x, t) [pi/2 * (u - 1) * cos(pi * (x - t)); 
             pi/2 * cos(pi * (x - t)) * (- u + u^2 + g * h0(x - t))];
 
-% Select a boundary condition option (either 'open' or 'peri')
-bc = 'open';
-
+% Here we use periodic boundary condition as the option ('peri')
+bc = 'peri';
 
 % Solve the problem
 [h, m, tvec, xvec, k, delta_x] = lax_friedrichs(xspan, tspan, N, K, h0, m0, @flux_phys, S, bc);
 
 
 % We visualize the solution
+figure(1)
 for i = 1 : length(tvec)
 
     subplot(2, 1, 1)
@@ -80,11 +80,11 @@ end
 
 
 
-%% 1.2
-% We now change the initial conditions and set the boundary condition
-% option to 'peri'
+%% SECTION 1.2
+% Again, we will use periodic boundary contion option ('peri')
 bc = 'peri';
 
+% First set of initial conditions
 h01 = @(x) 1 - 0.1 * sin(pi * x);
 m01 = @(x) 0;
 S1 = @(x, t) [0; 
@@ -96,6 +96,7 @@ S1 = @(x, t) [0;
 
 
 % We visualize the solution
+figure(2)
 for i = 1 : length(tvec1)
 
     subplot(2, 1, 1)
@@ -121,9 +122,46 @@ for i = 1 : length(tvec1)
 end
 
 
+% Second set of initial conditions
+h02 = @(x) 1 - 0.2 * sin(2 * pi * x);
+m02 = @(x) 0.5;
+S2 = @(x, t) [0; 
+              0];
 
-%% 1.3
-% We will now consider discontinuous initial conditions
+% Solve the problem
+[h2, m2, tvec2, xvec2] = lax_friedrichs(xspan, tspan, N, K, h02, m02, @flux_phys, S2, bc);
+
+
+% We visualize the solution
+figure(3)
+for i = 1 : length(tvec1)
+
+    subplot(2, 1, 1)
+    plot(xvec2, h2(:, i), 'LineWidth', 2)
+    title(['$h(x, t)$ at $t = $', num2str(tvec2(i))], 'Interpreter', 'latex')
+    xlabel('$x$', 'Interpreter', 'latex')
+    ylabel('$h(x, t)$', 'Interpreter', 'latex')
+    grid on
+    axis equal
+    set(gca, 'Fontsize', 20)
+    drawnow
+
+    subplot(2, 1, 2)
+    plot(xvec2, m2(:, i), 'LineWidth', 2)
+    title(['$m(x, t)$ at $t = $', num2str(tvec2(i))], 'Interpreter', 'latex')
+    xlabel('$x$', 'Interpreter', 'latex')
+    ylabel('$m(x, t)$', 'Interpreter', 'latex')
+    grid on
+    axis equal
+    set(gca, 'Fontsize', 20)
+    drawnow
+    
+end
+
+
+%% SECTION 1.3
+% We will now consider discontinuous initial conditions with the open
+% option ('open')
 bc = 'open';
 
 h0 = @(x) 1;
@@ -131,14 +169,15 @@ m0 = @(x) -1.5 * (x < 1);
 S = @(x, t) [0; 
               0];
 
+% New tspan
 tspan = [0 0.5];
-
 
 % Solve the problem
 [h, m, tvec, xvec] = lax_friedrichs(xspan, tspan, N, K, h0, m0, @flux_phys, S, bc);
 
 
 % We visualize the solution
+figure(4)
 for i = 1 : length(tvec)
 
     subplot(2, 1, 1)
