@@ -8,7 +8,7 @@ clc
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Set to true if you want to see the animation of the solutions over time
-animation = "true";
+animation = "True";
 %% SECTION 1.1
 % Definition of parameters
 g = 1;
@@ -16,7 +16,6 @@ u = 0.25;
 
 % Spatial domain
 xspan = [0, 2];
-
 % Temporal domain
 tspan = [0, 2];
 
@@ -26,7 +25,6 @@ m0 = @(x) u * h0(x);
 
 % Number of grid points
 N = 100;
-
 % Number of time steps
 CFL = 0.5;
 % Note that max(h0) = 1.5
@@ -44,45 +42,44 @@ bc = 'peri';
 [h, m, tvec, xvec, k, delta_x] = conservative_scheme(xspan, tspan, N, K, h0, m0,@lax_friedrichs_flux, @flux_phys, S, bc);
 
 
-% We visualize the solution
-% if animation == "true"
-%     figure(1)
-%     for i = 1 : length(tvec)
-% 
-%         subplot(2, 1, 1)
-%         plot(xvec, h(:, i), 'LineWidth', 2)
-%         hold on
-%         plot(xvec, h0(xvec - tvec(i)), 'Linewidth', 2)
-%         title(['$h(x, t)$ at $t = $', num2str(tvec(i))], 'Interpreter', 'latex')
-%         xlabel('$x$', 'Interpreter', 'latex')
-%         ylabel('$h(x, t)$', 'Interpreter', 'latex')
-%         grid on
-%         xlim([0 2]);
-%         ylim([0.4 1.6]);
-%         hold off
-%         % legend('Numerical solution', 'Exact solution', 'Interpreter', 'latex')
-%         set(gca, 'Fontsize', 20)
-%         drawnow
-% 
-%         subplot(2, 1, 2)
-%         plot(xvec, m(:, i), 'LineWidth', 2)
-%         hold on
-%         plot(xvec, u * h0(xvec - tvec(i)), 'Linewidth', 2)
-%         title(['$m(x, t)$ at $t = $', num2str(tvec(i))], 'Interpreter', 'latex')
-%         xlabel('$x$', 'Interpreter', 'latex')
-%         ylabel('$m(x, t)$', 'Interpreter', 'latex')
-%         grid on
-%         xlim([0 2]);
-%         ylim([0.1 0.4]);
-%         hold off
-%         % legend('Numerical solution', 'Exact solution', 'Interpreter', 'latex')
-%         set(gca, 'Fontsize', 20)
-%         drawnow
-% 
-%     end
-% end
+if animation == "True"
+    figure(1)
+    for i = 1 : length(tvec)
 
-%%  Error analysis point 1.1
+        subplot(2, 1, 1)
+        plot(xvec, h(:, i), 'LineWidth', 2)
+        hold on
+        plot(xvec, h0(xvec - tvec(i)), 'Linewidth', 2)
+        title(['$h(x, t)$ at $t = $', num2str(tvec(i))], 'Interpreter', 'latex')
+        xlabel('$x$', 'Interpreter', 'latex')
+        ylabel('$h(x, t)$', 'Interpreter', 'latex')
+        grid on
+        xlim([0 2]);
+        ylim([0.4 1.6]);
+        hold off
+        % legend('Numerical solution', 'Exact solution', 'Interpreter', 'latex')
+        set(gca, 'Fontsize', 20)
+        drawnow
+
+        subplot(2, 1, 2)
+        plot(xvec, m(:, i), 'LineWidth', 2)
+        hold on
+        plot(xvec, u * h0(xvec - tvec(i)), 'Linewidth', 2)
+        title(['$m(x, t)$ at $t = $', num2str(tvec(i))], 'Interpreter', 'latex')
+        xlabel('$x$', 'Interpreter', 'latex')
+        ylabel('$m(x, t)$', 'Interpreter', 'latex')
+        grid on
+        xlim([0 2]);
+        ylim([0.1 0.4]);
+        hold off
+        % legend('Numerical solution', 'Exact solution', 'Interpreter', 'latex')
+        set(gca, 'Fontsize', 20)
+        drawnow
+
+    end
+end
+
+%%  Error analysis 
 
 % We solve the same problem for different values of \Delta x
 delta_x_vec =  2.^-(1:6);
@@ -102,7 +99,7 @@ for i=1:length(N_vec)
     err_m_vec(i) = norm(m(:, end) - u*h0(xvec-T_f)'); %max(abs(m(:, end) - u*h0(xvec-T_f)')); %norm infty
 end
 
-
+% Plot the error
 figure(2)
 subplot(2,1,1)
 loglog(delta_x_vec, err_h_vec , "o-", "Linewidth", 2)
