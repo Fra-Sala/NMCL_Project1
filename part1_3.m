@@ -6,7 +6,7 @@ clc
 
 %% Point a: definition of parameters
 
-bc = 'open';
+bc = 'peri';
 animation = "True";
 h0 = @(x) 1;
 m0 = @(x) -1.5 * (x < 1);

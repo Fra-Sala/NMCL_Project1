@@ -36,7 +36,6 @@ for i = 2 : length(tvec)
     elseif bc == 'open'
 
         % In this other case, the solution at j - 1 = 0 is the solution at
-        % j = 1
         rhs = numerical_flux(flux_phys, [h(j, i - 1); m(j, i - 1)], [h(j + 1, i - 1); m(j + 1,i - 1)], delta_x, k) - ...
             numerical_flux(flux_phys, [h(j, i - 1); m(j, i - 1)], [h(j, i - 1); m(j, i - 1)], delta_x, k);
         h(j, i) = h(j, i - 1) - k/delta_x * rhs(1) + k * source(1);
