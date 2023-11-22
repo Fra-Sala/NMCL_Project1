@@ -1,6 +1,10 @@
-function [h, m, tvec, xvec, k, delta_x] = lax_friedrichs(xspan, tspan, N, K, h0, m0, flux_phys, S, bc)
+function [h, m, tvec, xvec, k, delta_x] = conservative_scheme(xspan, tspan, N, K, h0, m0, numerical_flux, flux_phys, S, bc)
 
-% Lax-Friedrichs method for solving the shallow water equation
+% [h, m, tvec, xvec, k, delta_x] = conservative_scheme(xspan, tspan, N, K, h0, m0, numerical_flux, flux_phys, S, bc)
+%
+% Implementation of the conservative scheme u_j^n+1 = u_j^n - k/h*(F_j+1/2^n-F_j-1/2^n)
+% By Francesco Sala and Nicolò Viscusi
+
 tvec    = linspace(tspan(1), tspan(end), K + 1);
 xvec    = linspace(xspan(1), xspan(end), N + 1);
 h       = zeros(N + 1, K + 1);
@@ -24,8 +28,8 @@ for i = 2 : length(tvec)
 
         % We consider as the solution at j - 1 = 0 the solution at the
         % second-to-last nodal point
-        rhs = lax_friedrichs_flux(flux_phys, [h(j, i - 1); m(j, i - 1)], [h(j + 1, i - 1); m(j + 1, i - 1)], delta_x, k) - ...
-            lax_friedrichs_flux(flux_phys, [h(end - 1, i - 1); m(end - 1, i - 1)], [h(j, i - 1); m(j, i - 1)], delta_x, k);
+        rhs = numerical_flux(flux_phys, [h(j, i - 1); m(j, i - 1)], [h(j + 1, i - 1); m(j + 1, i - 1)], delta_x, k) - ...
+            numerical_flux(flux_phys, [h(end - 1, i - 1); m(end - 1, i - 1)], [h(j, i - 1); m(j, i - 1)], delta_x, k);
         h(j, i) = h(j, i - 1) - k/delta_x * rhs(1) + k * source(1);
         m(j, i) = m(j, i - 1) - k/delta_x * rhs(2) + k * source(2);
 
@@ -33,8 +37,8 @@ for i = 2 : length(tvec)
 
         % In this other case, the solution at j - 1 = 0 is the solution at
         % j = 1
-        rhs = lax_friedrichs_flux(flux_phys, [h(j, i - 1); m(j, i - 1)], [h(j + 1, i - 1); m(j + 1,i - 1)], delta_x, k) - ...
-            lax_friedrichs_flux(flux_phys, [h(j, i - 1); m(j, i - 1)], [h(j, i - 1); m(j, i - 1)], delta_x, k);
+        rhs = numerical_flux(flux_phys, [h(j, i - 1); m(j, i - 1)], [h(j + 1, i - 1); m(j + 1,i - 1)], delta_x, k) - ...
+            numerical_flux(flux_phys, [h(j, i - 1); m(j, i - 1)], [h(j, i - 1); m(j, i - 1)], delta_x, k);
         h(j, i) = h(j, i - 1) - k/delta_x * rhs(1) + k * source(1);
         m(j, i) = m(j, i - 1) - k/delta_x * rhs(2) + k * source(2);
 
@@ -46,8 +50,8 @@ for i = 2 : length(tvec)
     for j = 2 : (length(xvec) - 1)
 
         source = S(xvec(j), tvec(i));
-        rhs = lax_friedrichs_flux(flux_phys, [h(j, i - 1); m(j, i - 1)], [h(j + 1, i - 1); m(j + 1, i - 1)], delta_x, k) - ...
-            lax_friedrichs_flux(flux_phys, [h(j - 1, i - 1); m(j - 1, i - 1)], [h(j, i - 1); m(j, i - 1)], delta_x, k);
+        rhs = numerical_flux(flux_phys, [h(j, i - 1); m(j, i - 1)], [h(j + 1, i - 1); m(j + 1, i - 1)], delta_x, k) - ...
+            numerical_flux(flux_phys, [h(j - 1, i - 1); m(j - 1, i - 1)], [h(j, i - 1); m(j, i - 1)], delta_x, k);
         h(j, i) = h(j, i - 1) - k/delta_x * rhs(1) + k * source(1);
         m(j, i) = m(j, i - 1) - k/delta_x * rhs(2) + k * source(2);
 
@@ -62,8 +66,8 @@ for i = 2 : length(tvec)
 
         % We consider the solution at j + 1 = N + 2 (that would be out of the
         % domain) as the solution at the second nodal point, i.e. j = 2
-        rhs = lax_friedrichs_flux(flux_phys, [h(j, i - 1); m(j, i - 1)], [h(2, i - 1); m(2, i - 1)], delta_x, k) - ...
-            lax_friedrichs_flux(flux_phys, [h(j - 1, i - 1); m(j - 1, i - 1)], [h(j, i - 1); m(j, i - 1)], delta_x, k);
+        rhs = numerical_flux(flux_phys, [h(j, i - 1); m(j, i - 1)], [h(2, i - 1); m(2, i - 1)], delta_x, k) - ...
+            numerical_flux(flux_phys, [h(j - 1, i - 1); m(j - 1, i - 1)], [h(j, i - 1); m(j, i - 1)], delta_x, k);
         h(j, i) = h(j, i - 1) - k/delta_x * rhs(1) + k * source(1);
         m(j, i) = m(j, i - 1) - k/delta_x * rhs(2) + k * source(2);
 
@@ -71,8 +75,8 @@ for i = 2 : length(tvec)
         
         % In this case, conversely, the solution at j + 1 = N + 2 (that is once
         % again out of the domain) the same as the solution at j = N + 1      
-        rhs = lax_friedrichs_flux(flux_phys, [h(j, i - 1); m(j, i - 1)], [h(j, i - 1); m(j, i - 1)], delta_x, k) - ...
-            lax_friedrichs_flux(flux_phys, [h(j - 1, i - 1); m(j - 1, i - 1)], [h(j, i - 1); m(j, i - 1)], delta_x, k);
+        rhs = numerical_flux(flux_phys, [h(j, i - 1); m(j, i - 1)], [h(j, i - 1); m(j, i - 1)], delta_x, k) - ...
+            numerical_flux(flux_phys, [h(j - 1, i - 1); m(j - 1, i - 1)], [h(j, i - 1); m(j, i - 1)], delta_x, k);
         h(j, i) = h(j, i - 1) - k/delta_x * rhs(1) + k * source(1);
         m(j, i) = m(j, i - 1) - k/delta_x * rhs(2) + k * source(2);
 

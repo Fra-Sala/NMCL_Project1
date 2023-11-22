@@ -331,22 +331,22 @@ for i=1:length(N_vec)
     [h2, m2, tvec2, xvec2] = conservative_scheme(xspan, tspan, N, K, h02, m02, @lax_friedrichs_flux, @flux_phys, S2, bc);
     % We now want to compare h1(:, end) with h1_ex(:, end), but this second vector is defined on a different grid xvec1_ex
     % We interpolate h1_ex(:, end) on the grid xvec1
-    h2_interp = interp1(xvec2, h2(:, end), xvec2_ex);
-    m2_interp = interp1(xvec2, m2(:, end), xvec2_ex);
-    err_h_vec2(i) = norm(h2_interp' - h2_ex(:, end)); 
-    err_m_vec2(i) = norm(m2_interp' - m2_ex(:, end));
+    h1_interp = interp1(xvec1, h1(:, end), xvec1_ex);
+    m1_interp = interp1(xvec1, m1(:, end), xvec1_ex);
+    err_h_vec(i) = norm(h1_interp' -h1_ex(:, end)); 
+    err_m_vec(i) = norm(m1_interp' - m1_ex(:, end));
 
 end
 
 
-figure(6)
+figure(4)
 subplot(2,1,1)
-loglog(delta_x_vec, err_h_vec2 , "o-", "Linewidth", 2)
+loglog(delta_x_vec, err_h_vec , "o-", "Linewidth", 2)
 hold on
 loglog(delta_x_vec, delta_x_vec, "--", delta_x_vec, delta_x_vec.^2, "--")
 xlabel('$\Delta x$', 'Interpreter', 'latex')
 ylabel("err", "Interpreter","latex")
-title("Error on \(h(x,t)\) at \(t=2\) (case 2)", "Interpreter","latex")
+title("Error on \(h(x,t)\) at \(t=2\) (case 1)", "Interpreter","latex")
 legend("Error", "\(\Delta x\)", "\(\Delta x^2\)", "interpreter", "latex",  "location", "best")
 set(gca, 'Fontsize', 20)
 grid on
@@ -354,12 +354,12 @@ grid on
 
 
 subplot(2,1,2)
-loglog(delta_x_vec, err_m_vec2, "o-", "Linewidth", 2)
+loglog(delta_x_vec, err_m_vec, "o-", "Linewidth", 2)
 hold on
 loglog(delta_x_vec, delta_x_vec, "--", delta_x_vec, delta_x_vec.^2, "--")
 xlabel('$\Delta x$', 'Interpreter', 'latex')
 ylabel("err", "Interpreter","latex")
-title("Error on \(m(x,t)\) at \(t=2\) (case 2)", "Interpreter","latex")
+title("Error on \(m(x,t)\) at \(t=2\) (case 1)", "Interpreter","latex")
 legend("Error", "\(\Delta x\)", "\(\Delta x^2\)", "interpreter", "latex", "location", "best")
 grid on
 set(gca, 'Fontsize', 20)
