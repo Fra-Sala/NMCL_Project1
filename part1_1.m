@@ -17,7 +17,7 @@ u = 0.25;
 % Spatial domain
 xspan = [0, 2];
 % Temporal domain
-tspan = [0, 2];
+tspan = [0, 0.5];
 
 % Initial conditions
 h0 = @(x) 1 + 0.5 * sin(pi * x);
@@ -44,7 +44,7 @@ bc = 'peri';
 
 if animation == "True"
     figure(1)
-    for i = 1 : length(tvec)
+    for i = 1 : 20:length(tvec)
 
         subplot(2, 1, 1)
         plot(xvec, h(:, i), 'LineWidth', 2)
@@ -82,7 +82,7 @@ end
 %%  Error analysis 
 
 % We solve the same problem for different values of \Delta x
-delta_x_vec =  2.^-(1:6);
+delta_x_vec =  2.^-(1:7);
 % Note that we cannot solve for smalle values of delta_x, because we would
 % need a too large matrix to store the solutions h and m
 N_vec = (xspan(2) - xspan(1)) ./ delta_x_vec ;
@@ -93,10 +93,10 @@ for i=1:length(N_vec)
     N = N_vec(i);
     k = CFL * (xspan(2) - xspan(1)) / N * 1 / (u + sqrt(g * 1.5));
     K = round((tspan(end) - tspan(1)) / k);
-    T_f = 2;
+    T_f = 0.5;
     [h, m, ~, xvec, k, delta_x] = conservative_scheme(xspan, tspan, N, K, h0, m0,@lax_friedrichs_flux, @flux_phys, S, bc);
-    err_h_vec(i) = norm(h(:, end) -h0(xvec-T_f)'); % max(abs(h(:, end) -h0(xvec-T_f)')); %norm infty
-    err_m_vec(i) = norm(m(:, end) - u*h0(xvec-T_f)'); %max(abs(m(:, end) - u*h0(xvec-T_f)')); %norm infty
+    err_h_vec(i) = 1/sqrt(N)*norm(h(:, end) -h0(xvec-T_f)');  %norm 2 %norm(h(:, end) -h0(xvec-T_f)'); % 
+    err_m_vec(i) = 1/sqrt(N)*norm(m(:, end) - u*h0(xvec-T_f)'); %norm 2 norm(m(:, end) - u*h0(xvec-T_f)');
 end
 
 % Plot the error
