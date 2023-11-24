@@ -41,6 +41,12 @@ for i = 2 : length(tvec)
         h(j, i) = h(j, i - 1) - k/delta_x * rhs(1) + k * source(1);
         m(j, i) = m(j, i - 1) - k/delta_x * rhs(2) + k * source(2);
 
+    elseif bc == 'diri'
+
+        h(j, i) = 1;
+        m(j, i) = -1.5;
+
+
     end
 
 
@@ -79,9 +85,10 @@ for i = 2 : length(tvec)
         h(j, i) = h(j, i - 1) - k/delta_x * rhs(1) + k * source(1);
         m(j, i) = m(j, i - 1) - k/delta_x * rhs(2) + k * source(2);
 
-    else
+    elseif bc == 'diri'
 
-        error("You must select a valid bc option!")
+        h(j, i) = 1;
+        m(j, i) = 0;
 
     end
 

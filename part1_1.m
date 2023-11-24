@@ -24,7 +24,7 @@ h0 = @(x) 1 + 0.5 * sin(pi * x);
 m0 = @(x) u * h0(x);
 
 % Number of grid points
-N = 100;
+N = 1000;
 % Number of time steps
 CFL = 0.5;
 % Note that max(h0) = 1.5
