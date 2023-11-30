@@ -30,17 +30,13 @@ CFL = 0.5;
 % K = round((tspan(end) - tspan(1)) / k);
 K = 2 * N;
 
-
-
-
-
 % Solve the problem
 [h1, m1, tvec1, xvec1] = conservative_scheme(xspan, tspan, N, K, h01, m01, @lax_friedrichs_flux, @flux_phys, S1, bc);
 
 % Plot of the solution at time t = 2
 figure(1)
 
-T_f =2;
+T_f = 2;
 subplot(2, 1, 1)
 plot(xvec1, h1(:, end), 'LineWidth', 2)
 title('$h(x, t)$ at $t = 2$', 'Interpreter', 'latex')
@@ -48,6 +44,7 @@ xlabel('$x$', 'Interpreter', 'latex')
 ylabel('$h(x, T)$', 'Interpreter', 'latex')
 grid on
 axis equal
+xlim([0 2]);
 set(gca, 'Fontsize', 20)
 drawnow
 
@@ -58,6 +55,7 @@ xlabel('$x$', 'Interpreter', 'latex')
 ylabel('$m(x, T)$', 'Interpreter', 'latex')
 grid on
 axis equal
+xlim([0 2]);
 %ylim([-0.1,0.1])
 set(gca, 'Fontsize', 20)
 drawnow
@@ -75,6 +73,7 @@ if animation == "true"
         ylabel('$h(x, t)$', 'Interpreter', 'latex')
         grid on
         axis equal
+        xlim([0 2]);
         set(gca, 'Fontsize', 20)
         drawnow
 
@@ -85,6 +84,7 @@ if animation == "true"
         ylabel('$m(x, t)$', 'Interpreter', 'latex')
         grid on
         axis equal
+        xlim([0 2]);
         set(gca, 'Fontsize', 20)
         drawnow
 
@@ -122,7 +122,9 @@ for i=1:length(N_vec)
 end
 
 
+% Plot error
 figure(3)
+
 subplot(2,1,1)
 loglog(delta_x_vec, err_h_vec1, "o-", "Linewidth", 2)
 hold on
@@ -175,6 +177,7 @@ if animation == "true"
         ylabel('$h(x, t)$', 'Interpreter', 'latex')
         grid on
         axis equal
+        xlim([0 2]);
         set(gca, 'Fontsize', 20)
         drawnow
 
@@ -185,6 +188,7 @@ if animation == "true"
         ylabel('$m(x, t)$', 'Interpreter', 'latex')
         grid on
         axis equal
+        xlim([0 2]);
         set(gca, 'Fontsize', 20)
         drawnow
 
@@ -224,7 +228,9 @@ for i=1:length(N_vec)
 end
 
 
+% Plot the error
 figure(5)
+
 subplot(2,1,1)
 loglog(delta_x_vec, err_h_vec2 , "o-", "Linewidth", 2)
 hold on

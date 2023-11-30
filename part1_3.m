@@ -18,8 +18,8 @@ xspan = [0, 2];
 tspan = [0 0.5];
 
 % Number of points in space and time
-N = 200;
-K = 400;
+N = 1000;
+K = 2000;
 
 
 %% Solve the problem with Lax-Friedrichs flux
@@ -37,7 +37,7 @@ if animation == "True"
         xlabel('$x$', 'Interpreter', 'latex')
         ylabel('$h(x, t)$', 'Interpreter', 'latex')
         grid on
-        axis equal
+        xlim([0 2]);
         set(gca, 'Fontsize', 20)
         drawnow
 
@@ -47,7 +47,7 @@ if animation == "True"
         xlabel('$x$', 'Interpreter', 'latex')
         ylabel('$m(x, t)$', 'Interpreter', 'latex')
         grid on
-        axis equal
+        xlim([0 2]);
         set(gca, 'Fontsize', 20)
         drawnow
 
@@ -61,25 +61,25 @@ end
 % We visualize the solution
 if animation == "True"
     figure(2);
-    for i = 1 : 20 : length(tvec)
+    for i = 1 : 20 : length(tvec_lw)
 
         subplot(2, 1, 1)
         plot(xvec_lw, h_lw(:, i), 'LineWidth', 2)
-        title(['Lax-Wendroff: $h(x, t)$ at $t = $', num2str(tvec(i))], 'Interpreter', 'latex')
+        title(['Lax-Wendroff: $h(x, t)$ at $t = $', num2str(tvec_lw(i))], 'Interpreter', 'latex')
         xlabel('$x$', 'Interpreter', 'latex')
         ylabel('$h(x, t)$', 'Interpreter', 'latex')
         grid on
-        axis equal
+        xlim([0 2]);
         set(gca, 'Fontsize', 20)
         drawnow
 
         subplot(2, 1, 2)
         plot(xvec_lw, m_lw(:, i), 'LineWidth', 2)
-        title(['Lax-Wendroff: $m(x, t)$ at $t = $', num2str(tvec(i))], 'Interpreter', 'latex')
+        title(['Lax-Wendroff: $m(x, t)$ at $t = $', num2str(tvec_lw(i))], 'Interpreter', 'latex')
         xlabel('$x$', 'Interpreter', 'latex')
         ylabel('$m(x, t)$', 'Interpreter', 'latex')
         grid on
-        axis equal
+        xlim([0 2]);
         set(gca, 'Fontsize', 20)
         drawnow
 

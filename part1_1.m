@@ -9,6 +9,7 @@ clc
 
 % Set to true if you want to see the animation of the solutions over time
 animation = "True";
+
 %% SECTION 1.1
 % Definition of parameters
 g = 1;
@@ -44,7 +45,7 @@ bc = 'peri';
 
 if animation == "True"
     figure(1)
-    for i = 1 : 20:length(tvec)
+    for i = 1 : 20 : length(tvec)
 
         subplot(2, 1, 1)
         plot(xvec, h(:, i), 'LineWidth', 2)
@@ -99,8 +100,10 @@ for i=1:length(N_vec)
     err_m_vec(i) = 1/sqrt(N)*norm(m(:, end) - u*h0(xvec-T_f)'); %norm 2 norm(m(:, end) - u*h0(xvec-T_f)');
 end
 
+
 % Plot the error
 figure(2)
+
 subplot(2,1,1)
 loglog(delta_x_vec, err_h_vec , "o-", "Linewidth", 2)
 hold on
@@ -111,7 +114,6 @@ title("Error on \(h(x,t)\) at \(t=2\)", "Interpreter","latex")
 legend("Error", "\(\Delta x\)", "\(\Delta x^2\)", "interpreter", "latex",  "location", "best")
 set(gca, 'Fontsize', 20)
 grid on
-
 
 
 subplot(2,1,2)
