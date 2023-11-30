@@ -6,7 +6,7 @@ clc
 
 %% Point a: definition of parameters
 
-bc = 'diri';
+bc = 'open';
 animation = "True";
 
 h0 = @(x) 1;
@@ -18,14 +18,11 @@ xspan = [0, 2];
 tspan = [0 0.5];
 
 % Number of points in space and time
-N = 100;
-K = 200;
+N = 200;
+K = 400;
 
 
-%% Point b: solution on meshes of different size
-
-
-% Solve the problem
+%% Solve the problem with Lax-Friedrichs flux
 [h, m, tvec, xvec] = conservative_scheme(xspan, tspan, N, K, h0, m0, @lax_friedrichs_flux, @flux_phys, S, bc);
 
 % Animation of the solution
@@ -57,16 +54,14 @@ if animation == "True"
     end
 end
 
-%% Point c: Lax-Wendroff
-
-% Solve the problem using Lax-Wendroff numerical flux
+%% Solve the problem with Lax-Wendroff flux
 [h_lw, m_lw, tvec_lw, xvec_lw] = conservative_scheme(xspan, tspan, N, K, h0, m0, @lax_wendroff_flux, @flux_phys, S, bc);
 
 % Animation of the solution
 % We visualize the solution
 if animation == "True"
     figure(2);
-    for i = 1 : length(tvec)
+    for i = 1 : 20 : length(tvec)
 
         subplot(2, 1, 1)
         plot(xvec_lw, h_lw(:, i), 'LineWidth', 2)

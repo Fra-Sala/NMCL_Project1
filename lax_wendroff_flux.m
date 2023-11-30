@@ -2,7 +2,7 @@ function F = lax_wendroff_flux(flux_phys, u, v, delta_x, k)
 
 % Lax-Wendroff flux: u and v have size (2,1), and correspond to qj and qj+1
 
-F = (flux_phys(u) + flux_phys(v))/2 - k/(2*delta_x) * flux_phys_prime((u+v)/2)*(flux_phys(v) - flux_phys(u));
+F = 0.5 * (flux_phys(u) + flux_phys(v) - k / delta_x * flux_phys_prime((u + v) / 2) * (flux_phys(v) - flux_phys(u)));
 
     function f_prime = flux_phys_prime(q)
     
