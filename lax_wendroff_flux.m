@@ -13,7 +13,7 @@ F = 0.5 * (flux_phys(u) + flux_phys(v) - k / delta_x * flux_phys_prime((u + v) /
     m = q(2);
     
     f_prime = [0, 1;
-                -m.^2./(h.^2) + g*h, 2*m/h  ];
+                -m.^2./(h.^2) + g*h, 2 * m./h  ];
     end
 
 

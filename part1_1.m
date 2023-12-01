@@ -26,8 +26,10 @@ m0 = @(x) u * h0(x);
 
 % Number of grid points
 N = 1000;
+
 % Number of time steps
 CFL = 0.5;
+
 % Note that max(h0) = 1.5
 k = CFL * (xspan(2) - xspan(1)) / N * 1 / (u + sqrt(g * 1.5));
 K = round((tspan(end) - tspan(1)) / k);
@@ -40,7 +42,7 @@ S = @(x, t) [pi/2 * (u - 1) * cos(pi * (x - t));
 bc = 'peri';
 
 % Solve the problem
-[h, m, tvec, xvec, k, delta_x] = conservative_scheme(xspan, tspan, N, K, h0, m0,@lax_friedrichs_flux, @flux_phys, S, bc);
+[h, m, tvec, xvec, k, delta_x] = conservative_scheme(xspan, tspan, N, K, h0, m0, @lax_friedrichs_flux, @flux_phys, S, bc);
 
 
 if animation == "True"
@@ -95,9 +97,9 @@ for i=1:length(N_vec)
     k = CFL * (xspan(2) - xspan(1)) / N * 1 / (u + sqrt(g * 1.5));
     K = round((tspan(end) - tspan(1)) / k);
     T_f = 0.5;
-    [h, m, ~, xvec, k, delta_x] = conservative_scheme(xspan, tspan, N, K, h0, m0,@lax_friedrichs_flux, @flux_phys, S, bc);
-    err_h_vec(i) = 1/sqrt(N)*norm(h(:, end) -h0(xvec-T_f)');  %norm 2 %norm(h(:, end) -h0(xvec-T_f)'); % 
-    err_m_vec(i) = 1/sqrt(N)*norm(m(:, end) - u*h0(xvec-T_f)'); %norm 2 norm(m(:, end) - u*h0(xvec-T_f)');
+    [h, m, ~, xvec, k, delta_x] = conservative_scheme(xspan, tspan, N, K, h0, m0, @lax_friedrichs_flux, @flux_phys, S, bc);
+    err_h_vec(i) = 1/sqrt(N)*norm(h(:, end) -h0(xvec-T_f)');          %norm 2 norm(h(:, end) -h0(xvec-T_f)'); 
+    err_m_vec(i) = 1/sqrt(N)*norm(m(:, end) - u*h0(xvec-T_f)');       %norm 2 norm(m(:, end) - u*h0(xvec-T_f)');
 end
 
 

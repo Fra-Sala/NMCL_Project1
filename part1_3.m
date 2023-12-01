@@ -10,7 +10,7 @@ bc = 'open';
 animation = "True";
 
 h0 = @(x) 1;
-m0 = @(x) -1.5 * (x < 1);
+m0 = @(x) -0.5 * (x < 1);
 S = @(x, t) [0;
              0];
 
@@ -18,8 +18,8 @@ xspan = [0, 2];
 tspan = [0 0.5];
 
 % Number of points in space and time
-N = 1000;
-K = 2000;
+N = 2000;
+K = 4000;
 
 
 %% Solve the problem with Lax-Friedrichs flux
