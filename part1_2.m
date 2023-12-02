@@ -17,11 +17,11 @@ S1 = @(x, t) [0;
     0];
 
 % We generate a reference solution
-[h1_ex, m1_ex, tvec1_ex, xvec1_ex] = conservative_scheme(xspan, tspan, 1000, 2000, h01, m01, @lax_friedrichs_flux, @flux_phys, S1, bc);
+[h1_ex, m1_ex, tvec1_ex, xvec1_ex] = conservative_scheme(xspan, tspan, 2000, 4000, h01, m01, @lax_friedrichs_flux, @flux_phys, S1, bc);
 
 
 % We now proceed with a less refined solution
-N = 100;
+N = 250;
 
 % Number of time steps
 CFL = 0.5;
@@ -33,42 +33,15 @@ K = 2 * N;
 % Solve the problem
 [h1, m1, tvec1, xvec1] = conservative_scheme(xspan, tspan, N, K, h01, m01, @lax_friedrichs_flux, @flux_phys, S1, bc);
 
-% Plot of the solution at time t = 2
-figure(1)
-
-T_f = 2;
-subplot(2, 1, 1)
-plot(xvec1, h1(:, end), 'LineWidth', 2)
-title('$h(x, t)$ at $t = 2$', 'Interpreter', 'latex')
-xlabel('$x$', 'Interpreter', 'latex')
-ylabel('$h(x, T)$', 'Interpreter', 'latex')
-grid on
-axis equal
-xlim([0 2]);
-set(gca, 'Fontsize', 20)
-drawnow
-
-subplot(2, 1, 2)
-plot(xvec1, m1(:, end), 'LineWidth', 2)
-title('$m(x, t)$ at $t = 2$', 'Interpreter', 'latex')
-xlabel('$x$', 'Interpreter', 'latex')
-ylabel('$m(x, T)$', 'Interpreter', 'latex')
-grid on
-axis equal
-xlim([0 2]);
-%ylim([-0.1,0.1])
-set(gca, 'Fontsize', 20)
-drawnow
-
 
 % We visualize the animation
 if animation == "true"
     figure(2)
-    for i = 1 : length(tvec1)
+    for i = 1 : 20 : length(tvec1)
 
         subplot(2, 1, 1)
         plot(xvec1, h1(:, i), 'LineWidth', 2)
-        title(['$h(x, t)$ at $t = $', num2str(tvec1(i))], 'Interpreter', 'latex')
+        % title(['$h(x, t)$ at $t = $', num2str(tvec1(i))], 'Interpreter', 'latex')
         xlabel('$x$', 'Interpreter', 'latex')
         ylabel('$h(x, t)$', 'Interpreter', 'latex')
         grid on
@@ -79,7 +52,7 @@ if animation == "true"
 
         subplot(2, 1, 2)
         plot(xvec1, m1(:, i), 'LineWidth', 2)
-        title(['$m(x, t)$ at $t = $', num2str(tvec1(i))], 'Interpreter', 'latex')
+        % title(['$m(x, t)$ at $t = $', num2str(tvec1(i))], 'Interpreter', 'latex')
         xlabel('$x$', 'Interpreter', 'latex')
         ylabel('$m(x, t)$', 'Interpreter', 'latex')
         grid on
@@ -130,8 +103,8 @@ loglog(delta_x_vec, err_h_vec1, "o-", "Linewidth", 2)
 hold on
 loglog(delta_x_vec, delta_x_vec, "--", delta_x_vec, delta_x_vec.^2, "--")
 xlabel('$\Delta x$', 'Interpreter', 'latex')
-ylabel("err", "Interpreter","latex")
-title("Error on \(h(x,t)\) at \(t=2\) (case 1)", "Interpreter","latex")
+ylabel("$\|e\|_2$", "Interpreter","latex")
+% title("Error on \(h(x,t)\) at \(t=2\) (case 1)", "Interpreter","latex")
 legend("Error", "\(\Delta x\)", "\(\Delta x^2\)", "interpreter", "latex",  "location", "best")
 set(gca, 'Fontsize', 20)
 grid on
@@ -141,8 +114,8 @@ loglog(delta_x_vec, err_m_vec1, "o-", "Linewidth", 2)
 hold on
 loglog(delta_x_vec, delta_x_vec, "--", delta_x_vec, delta_x_vec.^2, "--")
 xlabel('$\Delta x$', 'Interpreter', 'latex')
-ylabel("err", "Interpreter","latex")
-title("Error on \(m(x,t)\) at \(t=2\) (case 1)", "Interpreter","latex")
+ylabel("$\|e\|_2$", "Interpreter","latex")
+% title("Error on \(m(x,t)\) at \(t=2\) (case 1)", "Interpreter","latex")
 legend("Error", "\(\Delta x\)", "\(\Delta x^2\)", "interpreter", "latex", "location", "best")
 grid on
 set(gca, 'Fontsize', 20)
@@ -156,7 +129,7 @@ S2 = @(x, t) [0;
     0];
 
 % First, a refined solution as reference "exact"
-[h2_ex, m2_ex, tvec2_ex, xvec2_ex] = conservative_scheme(xspan, tspan, 1000, 2000, h02, m02, @lax_friedrichs_flux, @flux_phys, S2, bc);
+[h2_ex, m2_ex, tvec2_ex, xvec2_ex] = conservative_scheme(xspan, tspan, 2000, 4000, h02, m02, @lax_friedrichs_flux, @flux_phys, S2, bc);
 
 % Solve the problem on a less refined mesh
 N = 100;
@@ -168,11 +141,11 @@ K = 200;
 % We visualize the solution
 if animation == "true"
     figure(4)
-    for i = 1 : length(tvec2)
+    for i = 1 : 20 : length(tvec2)
 
         subplot(2, 1, 1)
         plot(xvec2, h2(:, i), 'LineWidth', 2)
-        title(['$h(x, t)$ at $t = $', num2str(tvec2(i))], 'Interpreter', 'latex')
+        % title(['$h(x, t)$ at $t = $', num2str(tvec2(i))], 'Interpreter', 'latex')
         xlabel('$x$', 'Interpreter', 'latex')
         ylabel('$h(x, t)$', 'Interpreter', 'latex')
         grid on
@@ -183,7 +156,7 @@ if animation == "true"
 
         subplot(2, 1, 2)
         plot(xvec2, m2(:, i), 'LineWidth', 2)
-        title(['$m(x, t)$ at $t = $', num2str(tvec2(i))], 'Interpreter', 'latex')
+        % title(['$m(x, t)$ at $t = $', num2str(tvec2(i))], 'Interpreter', 'latex')
         xlabel('$x$', 'Interpreter', 'latex')
         ylabel('$m(x, t)$', 'Interpreter', 'latex')
         grid on
@@ -236,8 +209,8 @@ loglog(delta_x_vec, err_h_vec2 , "o-", "Linewidth", 2)
 hold on
 loglog(delta_x_vec, delta_x_vec, "--", delta_x_vec, delta_x_vec.^2, "--")
 xlabel('$\Delta x$', 'Interpreter', 'latex')
-ylabel("err", "Interpreter","latex")
-title("Error on \(h(x,t)\) at \(t=2\) (case 2)", "Interpreter","latex")
+ylabel("$\|e\|_2$", "Interpreter","latex")
+% title("Error on \(h(x,t)\) at \(t=2\) (case 2)", "Interpreter","latex")
 legend("Error", "\(\Delta x\)", "\(\Delta x^2\)", "interpreter", "latex",  "location", "best")
 set(gca, 'Fontsize', 20)
 grid on
@@ -247,8 +220,8 @@ loglog(delta_x_vec, err_m_vec2, "o-", "Linewidth", 2)
 hold on
 loglog(delta_x_vec, delta_x_vec, "--", delta_x_vec, delta_x_vec.^2, "--")
 xlabel('$\Delta x$', 'Interpreter', 'latex')
-ylabel("err", "Interpreter","latex")
-title("Error on \(m(x,t)\) at \(t=2\) (case 2)", "Interpreter","latex")
+ylabel("$\|e\|_2$", "Interpreter","latex")
+% title("Error on \(m(x,t)\) at \(t=2\) (case 2)", "Interpreter","latex")
 legend("Error", "\(\Delta x\)", "\(\Delta x^2\)", "interpreter", "latex", "location", "best")
 grid on
 set(gca, 'Fontsize', 20)

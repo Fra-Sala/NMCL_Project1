@@ -17,6 +17,7 @@ u = 0.25;
 
 % Spatial domain
 xspan = [0, 2];
+
 % Temporal domain
 tspan = [0, 0.5];
 
@@ -53,14 +54,14 @@ if animation == "True"
         plot(xvec, h(:, i), 'LineWidth', 2)
         hold on
         plot(xvec, h0(xvec - tvec(i)), 'Linewidth', 2)
-        title(['$h(x, t)$ at $t = $', num2str(tvec(i))], 'Interpreter', 'latex')
+        % title(['$h(x, t)$ at $t = $ ', num2str(tvec(i))], 'Interpreter', 'latex')
         xlabel('$x$', 'Interpreter', 'latex')
         ylabel('$h(x, t)$', 'Interpreter', 'latex')
         grid on
         xlim([0 2]);
         ylim([0.4 1.6]);
         hold off
-        % legend('Numerical solution', 'Exact solution', 'Interpreter', 'latex')
+        legend('Numerical solution', 'Exact solution', 'Interpreter', 'latex')
         set(gca, 'Fontsize', 20)
         drawnow
 
@@ -68,14 +69,14 @@ if animation == "True"
         plot(xvec, m(:, i), 'LineWidth', 2)
         hold on
         plot(xvec, u * h0(xvec - tvec(i)), 'Linewidth', 2)
-        title(['$m(x, t)$ at $t = $', num2str(tvec(i))], 'Interpreter', 'latex')
+        % title(['$m(x, t)$ at $t = $ ', num2str(tvec(i))], 'Interpreter', 'latex')
         xlabel('$x$', 'Interpreter', 'latex')
         ylabel('$m(x, t)$', 'Interpreter', 'latex')
         grid on
         xlim([0 2]);
         ylim([0.1 0.4]);
         hold off
-        % legend('Numerical solution', 'Exact solution', 'Interpreter', 'latex')
+        legend('Numerical solution', 'Exact solution', 'Interpreter', 'latex')
         set(gca, 'Fontsize', 20)
         drawnow
 
@@ -111,8 +112,8 @@ loglog(delta_x_vec, err_h_vec , "o-", "Linewidth", 2)
 hold on
 loglog(delta_x_vec, delta_x_vec, "--", delta_x_vec, delta_x_vec.^2, "--")
 xlabel('$\Delta x$', 'Interpreter', 'latex')
-ylabel("err", "Interpreter","latex")
-title("Error on \(h(x,t)\) at \(t=2\)", "Interpreter","latex")
+ylabel("$\|e\|_2$", "Interpreter","latex")
+% title("Error on \(h(x,t)\) at \(t=2\)", "Interpreter","latex")
 legend("Error", "\(\Delta x\)", "\(\Delta x^2\)", "interpreter", "latex",  "location", "best")
 set(gca, 'Fontsize', 20)
 grid on
@@ -123,8 +124,8 @@ loglog(delta_x_vec, err_m_vec, "o-", "Linewidth", 2)
 hold on
 loglog(delta_x_vec, delta_x_vec, "--", delta_x_vec, delta_x_vec.^2, "--")
 xlabel('$\Delta x$', 'Interpreter', 'latex')
-ylabel("err", "Interpreter","latex")
-title("Error on \(m(x,t)\) at \(t=2\)", "Interpreter","latex")
+ylabel("$\|e\|_2$", "Interpreter","latex")
+% title("Error on \(m(x,t)\) at \(t=2\)", "Interpreter","latex")
 legend("Error", "\(\Delta x\)", "\(\Delta x^2\)", "interpreter", "latex", "location", "best")
 grid on
 set(gca, 'Fontsize', 20)
