@@ -2,15 +2,13 @@ clear
 close all
 clc
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%% Implementation of the finite difference solution of the shallow-water equations %%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Code by Francesco Sala and Nicolo' Viscusi %%%
 
 % Set to true if you want to see the animation of the solutions over time
 animation = "True";
 
-%% SECTION 1.1
+%% Resolution of the problem
+
 % Definition of parameters
 g = 1;
 u = 0.25;
@@ -43,9 +41,11 @@ S = @(x, t) [pi/2 * (u - 1) * cos(pi * (x - t));
 bc = 'peri';
 
 % Solve the problem
-[h, m, tvec, xvec, k, delta_x] = conservative_scheme(xspan, tspan, N, K, h0, m0, @lax_friedrichs_flux, @flux_phys, S, bc);
+[h, m, tvec, xvec, k, delta_x] = conservative_scheme(xspan, tspan, N, ...
+    K, h0, m0, @lax_friedrichs_flux, @flux_phys, S, bc);
 
 
+% We visualize the solution
 if animation == "True"
     figure(1)
     for i = 1 : 20 : length(tvec)
@@ -54,14 +54,16 @@ if animation == "True"
         plot(xvec, h(:, i), 'LineWidth', 2)
         hold on
         plot(xvec, h0(xvec - tvec(i)), 'Linewidth', 2)
-        % title(['$h(x, t)$ at $t = $ ', num2str(tvec(i))], 'Interpreter', 'latex')
+        title(['$h(x, t)$ at $t = $ ', num2str(tvec(i))], ...
+            'Interpreter', 'latex')
         xlabel('$x$', 'Interpreter', 'latex')
         ylabel('$h(x, t)$', 'Interpreter', 'latex')
         grid on
         xlim([0 2]);
         ylim([0.4 1.6]);
         hold off
-        legend('Numerical solution', 'Exact solution', 'Interpreter', 'latex')
+        legend('Numerical solution', 'Exact solution', ...
+            'Interpreter', 'latex')
         set(gca, 'Fontsize', 20)
         drawnow
 
@@ -69,14 +71,16 @@ if animation == "True"
         plot(xvec, m(:, i), 'LineWidth', 2)
         hold on
         plot(xvec, u * h0(xvec - tvec(i)), 'Linewidth', 2)
-        % title(['$m(x, t)$ at $t = $ ', num2str(tvec(i))], 'Interpreter', 'latex')
+        title(['$m(x, t)$ at $t = $ ', num2str(tvec(i))], ...
+            'Interpreter', 'latex')
         xlabel('$x$', 'Interpreter', 'latex')
         ylabel('$m(x, t)$', 'Interpreter', 'latex')
         grid on
         xlim([0 2]);
         ylim([0.1 0.4]);
         hold off
-        legend('Numerical solution', 'Exact solution', 'Interpreter', 'latex')
+        legend('Numerical solution', 'Exact solution', ...
+            'Interpreter', 'latex')
         set(gca, 'Fontsize', 20)
         drawnow
 
@@ -87,6 +91,7 @@ end
 
 % We solve the same problem for different values of \Delta x
 delta_x_vec =  2.^-(1:7);
+
 % Note that we cannot solve for smalle values of delta_x, because we would
 % need a too large matrix to store the solutions h and m
 N_vec = (xspan(2) - xspan(1)) ./ delta_x_vec ;
@@ -98,9 +103,10 @@ for i=1:length(N_vec)
     k = CFL * (xspan(2) - xspan(1)) / N * 1 / (u + sqrt(g * 1.5));
     K = round((tspan(end) - tspan(1)) / k);
     T_f = 0.5;
-    [h, m, ~, xvec, k, delta_x] = conservative_scheme(xspan, tspan, N, K, h0, m0, @lax_friedrichs_flux, @flux_phys, S, bc);
-    err_h_vec(i) = 1/sqrt(N)*norm(h(:, end) -h0(xvec-T_f)');          %norm 2 norm(h(:, end) -h0(xvec-T_f)'); 
-    err_m_vec(i) = 1/sqrt(N)*norm(m(:, end) - u*h0(xvec-T_f)');       %norm 2 norm(m(:, end) - u*h0(xvec-T_f)');
+    [h, m, ~, xvec, k, delta_x] = conservative_scheme(xspan, tspan, N, ...
+        K, h0, m0, @lax_friedrichs_flux, @flux_phys, S, bc);
+    err_h_vec(i) = 1/sqrt(N)*norm(h(:, end) -h0(xvec-T_f)');          
+    err_m_vec(i) = 1/sqrt(N)*norm(m(:, end) - u*h0(xvec-T_f)');    
 end
 
 
@@ -114,7 +120,8 @@ loglog(delta_x_vec, delta_x_vec, "--", delta_x_vec, delta_x_vec.^2, "--")
 xlabel('$\Delta x$', 'Interpreter', 'latex')
 ylabel("$\|e\|_2$", "Interpreter","latex")
 % title("Error on \(h(x,t)\) at \(t=2\)", "Interpreter","latex")
-legend("Error", "\(\Delta x\)", "\(\Delta x^2\)", "interpreter", "latex",  "location", "best")
+legend("Error", "\(\Delta x\)", "\(\Delta x^2\)", "interpreter", ...
+    "latex",  "location", "best")
 set(gca, 'Fontsize', 20)
 grid on
 
@@ -126,12 +133,7 @@ loglog(delta_x_vec, delta_x_vec, "--", delta_x_vec, delta_x_vec.^2, "--")
 xlabel('$\Delta x$', 'Interpreter', 'latex')
 ylabel("$\|e\|_2$", "Interpreter","latex")
 % title("Error on \(m(x,t)\) at \(t=2\)", "Interpreter","latex")
-legend("Error", "\(\Delta x\)", "\(\Delta x^2\)", "interpreter", "latex", "location", "best")
+legend("Error", "\(\Delta x\)", "\(\Delta x^2\)", "interpreter", ...
+    "latex", "location", "best")
 grid on
 set(gca, 'Fontsize', 20)
-
-
-
-
-
-
