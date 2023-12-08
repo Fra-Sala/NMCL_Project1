@@ -40,7 +40,7 @@ function [h, m, tvec, xvec, k, delta_x] = conservative_scheme(xspan, ...
 %   the time step, and delta_x is the spatial grid spacing. The boundary 
 %   conditions (bc) can be set to 'peri' (periodic), 'open' (open).
 %
-% Authors: Francesco Sala and Nicolò Viscusi
+% Authors: Francesco Sala and Nicolo' Viscusi
 % December 2023
 
 

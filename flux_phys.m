@@ -18,7 +18,7 @@ function f = flux_phys(q)
 %   This function calculates the physical flux for the shallow water
 %   equations.
 %
-% Authors: [Francesco Sala, Nicolò Viscusi]
+% Authors: [Francesco Sala, Nicolo' Viscusi]
 % December 2023
 
 g = 1;
