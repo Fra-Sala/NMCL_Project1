@@ -211,9 +211,11 @@ for i=1:length(N_vec)
 
     K = N / CFL;
 
-    [h2, m2, ~, xvec2_err] = conservative_scheme(xspan, tspan, N, K, h02, m02, @lax_friedrichs_flux, @flux_phys, S2, bc);
+    [h2, m2, ~, xvec2_err] = conservative_scheme(xspan, tspan, N, K, ...
+        h02, m02, @lax_friedrichs_flux, @flux_phys, S2, bc);
 
-    % We now want to compare h1(:, end) with h1_ex(:, end), but this second vector is defined on a different grid xvec1_ex
+    % We now want to compare h1(:, end) with h1_ex(:, end), but this 
+    % second vector is defined on a different grid xvec1_ex
     % We interpolate h1_ex(:, end) on the grid xvec1
     h2_interp = interp1(xvec2_err, h2(:, end), xvec2_ex);
     m2_interp = interp1(xvec2_err, m2(:, end), xvec2_ex);

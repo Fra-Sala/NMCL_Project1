@@ -4,22 +4,32 @@ clc
 
 %%% Code by Francesco Sala and Nicolo' Viscusi %%%
 
-%% Definition of parameters
-
-bc = 'open';
+% Set to true if you want to see the animation of the solutions over time
 animation = "True";
 
+%% Definition of parameters
+
+% Boundary conditions option
+bc = 'open';
+
+% Initial conditions
 h0 = @(x) 1;
 m0 = @(x) -0.5 * (x < 1);
+
+% Source term
 S = @(x, t) [0;
              0];
 
+% Spatial domain
 xspan = [0, 2];
+
+% Temporal domain
 tspan = [0 0.5];
 
 % Number of points in space and time
 N = 100;
 K = 200;
+
 
 
 %% Solve the problem with Lax-Friedrichs flux
@@ -127,8 +137,8 @@ if animation == "True"
 
         subplot(2, 1, 1)
         plot(xvec_lw, h_lw(:, i), 'LineWidth', 2)
-        title(['Lax-Wendroff: $h(x, t)$ at $t = $', num2str(tvec_lw(i))], ...
-            'Interpreter', 'latex')
+        title(['Lax-Wendroff: $h(x, t)$ at $t = $', ...
+            num2str(tvec_lw(i))], 'Interpreter', 'latex')
         xlabel('$x$', 'Interpreter', 'latex')
         ylabel('$h(x, t)$', 'Interpreter', 'latex')
         grid on
@@ -138,8 +148,8 @@ if animation == "True"
 
         subplot(2, 1, 2)
         plot(xvec_lw, m_lw(:, i), 'LineWidth', 2)
-        title(['Lax-Wendroff: $m(x, t)$ at $t = $', num2str(tvec_lw(i))],...
-            'Interpreter', 'latex')
+        title(['Lax-Wendroff: $m(x, t)$ at $t = $', ...
+            num2str(tvec_lw(i))], 'Interpreter', 'latex')
         xlabel('$x$', 'Interpreter', 'latex')
         ylabel('$m(x, t)$', 'Interpreter', 'latex')
         grid on
@@ -153,16 +163,16 @@ end
 
 % We now compute a set of numerical solutions obtained with gradually
 % decreasing mesh sizes
-[h1, m1, ~, xvec1] = conservative_scheme(xspan, tspan, 100, 200, h0, m0,...
-    @lax_wendroff_flux, @flux_phys, S, bc);
-[h2, m2, ~, xvec2] = conservative_scheme(xspan, tspan, 250, 500, h0, m0,...
-    @lax_wendroff_flux, @flux_phys, S, bc);
-[h3, m3, ~, xvec3] = conservative_scheme(xspan, tspan, 400, 800, h0, m0,...
-    @lax_wendroff_flux, @flux_phys, S, bc);
-[h4, m4, ~, xvec4] = conservative_scheme(xspan, tspan, 800, 1600, h0, m0,...
-    @lax_wendroff_flux, @flux_phys, S, bc);
-[h5, m5, ~, xvec5] = conservative_scheme(xspan, tspan, 1500, 3000, h0, m0,...
-    @lax_wendroff_flux, @flux_phys, S, bc);
+[h1, m1, ~, xvec1] = conservative_scheme(xspan, tspan, 100, 200, ...
+    h0, m0, @lax_wendroff_flux, @flux_phys, S, bc);
+[h2, m2, ~, xvec2] = conservative_scheme(xspan, tspan, 250, 500, ...
+    h0, m0, @lax_wendroff_flux, @flux_phys, S, bc);
+[h3, m3, ~, xvec3] = conservative_scheme(xspan, tspan, 400, 800, ... 
+    h0, m0, @lax_wendroff_flux, @flux_phys, S, bc);
+[h4, m4, ~, xvec4] = conservative_scheme(xspan, tspan, 800, 1600, ...
+    h0, m0, @lax_wendroff_flux, @flux_phys, S, bc);
+[h5, m5, ~, xvec5] = conservative_scheme(xspan, tspan, 1500, 3000, ...
+    h0, m0, @lax_wendroff_flux, @flux_phys, S, bc);
 
 figure(4)
 subplot(2, 1, 1)
