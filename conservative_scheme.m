@@ -2,9 +2,47 @@ function [h, m, tvec, xvec, k, delta_x] = conservative_scheme(xspan, ...
     tspan, N, K, h0, m0, numerical_flux, flux_phys, S, bc)
 
 
+% CONSERVATIVE_SCHEME - Implements the conservative scheme
+%                       for solving hyperbolic PDEs.
+%
+%   [h, m, tvec, xvec, k, delta_x] = conservative_scheme(xspan, ...
+%           tspan, N, K, h0, m0, numerical_flux, flux_phys, S, bc)
+%
+% INPUTS:
+%   xspan           - Spatial domain [x_start, x_end].
+%   tspan           - Temporal domain [t_start, t_end].
+%   N               - Number of spatial grid points.
+%   K               - Number of temporal grid points.
+%   h0              - Function handle for initial water depth.
+%   m0              - Function handle for initial discharge.
+%   numerical_flux - Function handle for numerical flux computation.
+%   flux_phys       - Function handle for the physical flux function.
+%   S               - Source term function.
+%   bc              - Boundary condition: 'peri' (periodic), 'open' (open).
+%
+% OUTPUTS:
+%   h               - Water depth (matrix) over space and time.
+%   m               - Discharge (matrix) over space and time.
+%   tvec            - Temporal grid vector.
+%   xvec            - Spatial grid vector.
+%   k               - Time step size.
+%   delta_x         - Spatial grid spacing.
+%
+% DESCRIPTION:
+%   This function implements the conservative scheme for solving hyperbolic
+%   partial differential equations (PDEs) that model shallow water flow. 
+%   It evolves the water depth (h) and discharge (m) over a specified
+%   spatial and temporal domain using the conservative scheme formula:
+%
+%   u_j^n+1 = u_j^n - k/h * (F_j+1/2^n - F_j-1/2^n) + k * S_j^n,
+%
+%   where u represents [h; m], F is the flux, S is the source term, k is
+%   the time step, and delta_x is the spatial grid spacing. The boundary 
+%   conditions (bc) can be set to 'peri' (periodic), 'open' (open).
+%
+% Authors: Francesco Sala and Nicolò Viscusi
+% December 2023
 
-% Implementation of the conservative scheme u_j^n+1 = u_j^n - k/h*(F_j+1/2^n-F_j-1/2^n)
-% By Francesco Sala and Nicolò Viscusi
 
 tvec    = linspace(tspan(1), tspan(end), K + 1);
 xvec    = linspace(xspan(1), xspan(end), N + 1);
