@@ -90,7 +90,7 @@ end
 %%  Error analysis 
 
 % We solve the same problem for different values of \Delta x
-delta_x_vec =  2.^-(1:7);
+delta_x_vec =  2.^-(4:10);
 
 % Note that we cannot solve for smalle values of delta_x, because we would
 % need a too large matrix to store the solutions h and m
@@ -119,7 +119,7 @@ hold on
 loglog(delta_x_vec, delta_x_vec, "--", delta_x_vec, delta_x_vec.^2, "--")
 xlabel('$\Delta x$', 'Interpreter', 'latex')
 ylabel("$\|e\|_2$", "Interpreter","latex")
-% title("Error on \(h(x,t)\) at \(t=2\)", "Interpreter","latex")
+title("Error on \(h(x,t)\) at \(t=0.5\)", "Interpreter","latex")
 legend("Error", "\(\Delta x\)", "\(\Delta x^2\)", "interpreter", ...
     "latex",  "location", "best")
 set(gca, 'Fontsize', 20)
@@ -132,7 +132,7 @@ hold on
 loglog(delta_x_vec, delta_x_vec, "--", delta_x_vec, delta_x_vec.^2, "--")
 xlabel('$\Delta x$', 'Interpreter', 'latex')
 ylabel("$\|e\|_2$", "Interpreter","latex")
-% title("Error on \(m(x,t)\) at \(t=2\)", "Interpreter","latex")
+title("Error on \(m(x,t)\) at \(t=0.5\)", "Interpreter","latex")
 legend("Error", "\(\Delta x\)", "\(\Delta x^2\)", "interpreter", ...
     "latex", "location", "best")
 grid on

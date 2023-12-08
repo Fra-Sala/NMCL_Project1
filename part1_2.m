@@ -29,7 +29,7 @@ bc = 'peri';
 
 % We generate a reference solution
 [h1_ex, m1_ex, tvec1_ex, xvec1_ex] = conservative_scheme(xspan, tspan, ...
-    2000, 4000, h01, m01, @lax_friedrichs_flux, @flux_phys, S1, bc);
+    3000, 6000, h01, m01, @lax_friedrichs_flux, @flux_phys, S1, bc);
 
 
 % We now proceed with a less refined solution
@@ -56,8 +56,8 @@ if animation == "True"
         xlabel('$x$', 'Interpreter', 'latex')
         ylabel('$h(x, t)$', 'Interpreter', 'latex')
         grid on
-        axis equal
         xlim([0 2]);
+        ylim([0.9 1.1]);
         set(gca, 'Fontsize', 20)
         drawnow
 
@@ -68,8 +68,8 @@ if animation == "True"
         xlabel('$x$', 'Interpreter', 'latex')
         ylabel('$m(x, t)$', 'Interpreter', 'latex')
         grid on
-        axis equal
         xlim([0 2]);
+        ylim([-0.1 0.1])
         set(gca, 'Fontsize', 20)
         drawnow
 
@@ -81,7 +81,7 @@ end
 %% Error analysis, initial condition 1
 
 % We solve the same problem for different values of \Delta x
-delta_x_vec =  2.^-(1:8);
+delta_x_vec =  2.^-(4:10);
 
 % Note that we cannot solve for small values of delta_x, because we would
 % need a too large matrix to store the solutions h and m
@@ -151,7 +151,7 @@ S2 = @(x, t) [0;
 
 % First, a refined solution as reference "exact"
 [h2_ex, m2_ex, tvec2_ex, xvec2_ex] = conservative_scheme(xspan, ...
-    tspan, 2000, 4000, h02, m02, @lax_friedrichs_flux, @flux_phys, S2, bc);
+    tspan, 3000, 6000, h02, m02, @lax_friedrichs_flux, @flux_phys, S2, bc);
 
 % Solve the problem on a less refined mesh
 N = 100;
@@ -173,8 +173,8 @@ if animation == "True"
         xlabel('$x$', 'Interpreter', 'latex')
         ylabel('$h(x, t)$', 'Interpreter', 'latex')
         grid on
-        axis equal
         xlim([0 2]);
+        ylim([0.8 1.2]);
         set(gca, 'Fontsize', 20)
         drawnow
 
@@ -185,8 +185,8 @@ if animation == "True"
         xlabel('$x$', 'Interpreter', 'latex')
         ylabel('$m(x, t)$', 'Interpreter', 'latex')
         grid on
-        axis equal
         xlim([0 2]);
+        ylim([0.4 0.6])
         set(gca, 'Fontsize', 20)
         drawnow
 
@@ -198,7 +198,7 @@ end
 %% Error analysis, initial condition 2
 
 % We solve the same problem for different values of \Delta x
-delta_x_vec =  2.^-(1:8);
+delta_x_vec =  2.^-(6:10);
 
 % Note that we cannot solve for small values of delta_x, because we would
 % need a too large matrix to store the solutions h and m
