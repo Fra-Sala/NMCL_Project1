@@ -2,9 +2,9 @@ clear
 close all
 clc
 
-% SECTION 1.3
+%%% Code by Francesco Sala and Nicolo' Viscusi %%%
 
-%% Point a: definition of parameters
+%% Definition of parameters
 
 bc = 'open';
 animation = "True";
@@ -29,7 +29,7 @@ K = 200;
 [h_exf, m_exf, tvec_exf, xvec_exf] = conservative_scheme(xspan, tspan, 3000, 6000, h0, m0, @lax_friedrichs_flux, @flux_phys, S, bc);
 
 % Animation of the solution
-% We visualize the solution
+% Visualize the solution
 if animation == "True"
     figure(1);
     for i = 1 : 20 : length(tvec)
@@ -58,7 +58,7 @@ if animation == "True"
 end
 
 
-% We now compute a set of numerical solutions obtained with gradually
+% Compute a set of numerical solutions obtained with gradually
 % decreasing mesh sizes
 [h1, m1, ~, xvec1] = conservative_scheme(xspan, tspan, 100, 200, h0, m0, @lax_friedrichs_flux, @flux_phys, S, bc);
 [h2, m2, ~, xvec2] = conservative_scheme(xspan, tspan, 250, 500, h0, m0, @lax_friedrichs_flux, @flux_phys, S, bc);
@@ -107,7 +107,7 @@ set(gca, 'Fontsize', 20)
 [h_exw, m_exw, tvec_exw, xvec_exw] = conservative_scheme(xspan, tspan, 3000, 6000, h0, m0, @lax_wendroff_flux, @flux_phys, S, bc);
 
 % Animation of the solution
-% We visualize the solution
+% Visualize the solution
 if animation == "True"
     figure(3);
     for i = 1 : 20 : length(tvec_lw)
