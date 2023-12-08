@@ -8,7 +8,7 @@ bc = 'peri';
 animation = 'true';
 
 xspan = [0 2];
-tspan = [0 2];
+tspan = [0 0.5];
 
 %% First set of initial conditions
 h01 = @(x) 1 - 0.1 * sin(pi * x);
@@ -37,7 +37,7 @@ K = 2 * N;
 % We visualize the animation
 if animation == "true"
     figure(2)
-    for i = 1 : 20 : length(tvec1)
+    for i = length(tvec1) %1 : 20 : length(tvec1)
 
         subplot(2, 1, 1)
         plot(xvec1, h1(:, i), 'LineWidth', 2)
@@ -141,7 +141,7 @@ K = 200;
 % We visualize the solution
 if animation == "true"
     figure(4)
-    for i = 1 : 20 : length(tvec2)
+    for i = length(tvec2) %1 : 20 : length(tvec2)
 
         subplot(2, 1, 1)
         plot(xvec2, h2(:, i), 'LineWidth', 2)
