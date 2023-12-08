@@ -1,4 +1,4 @@
-# NMCL_Project1
+# Numerical Methods for Conservation Laws: Project 1
 
 Welcome to the repository for the 1st project of EPFL MATH-459: Numerical Methods for Conservation Laws. This project is dedicated to the implementation of numerical simulations for a specific Partial Differential Equation (PDE) problem, that is the shallow water equations, as outlined in the assignment.
 
