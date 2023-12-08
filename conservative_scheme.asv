@@ -1,8 +1,7 @@
-function [h, m, tvec, xvec, k, delta_x] = conservative_scheme(xspan, ...
-    tspan, N, K, h0, m0, numerical_flux, flux_phys, S, bc)
+function [h, m, tvec, xvec, k, delta_x] = conservative_scheme(xspan, tspan, N, K, h0, m0, numerical_flux, flux_phys, S, bc)
 
-
-
+% [h, m, tvec, xvec, k, delta_x] = conservative_scheme(xspan, tspan, N, K, h0, m0, numerical_flux, flux_phys, S, bc)
+%
 % Implementation of the conservative scheme u_j^n+1 = u_j^n - k/h*(F_j+1/2^n-F_j-1/2^n)
 % By Francesco Sala and Nicolò Viscusi
 
@@ -76,6 +75,11 @@ for i = 2 : length(tvec)
             m(j - 1, i - 1)], [h(j, i - 1); m(j, i - 1)], delta_x, k);
         h(j, i) = h(j, i - 1) - k/delta_x * rhs(1) + k * source(1);
         m(j, i) = m(j, i - 1) - k/delta_x * rhs(2) + k * source(2);
+
+    elseif bc == 'diri'
+
+        h(j, i) = 1;
+        m(j, i) = 0;
 
     end
 
