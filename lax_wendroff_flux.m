@@ -17,8 +17,7 @@ function F = lax_wendroff_flux(flux_phys, u, v, delta_x, k)
 % DESCRIPTION:
 %   This function calculates the Lax-Wendroff flux between two neighboring
 %   states, u and v, based on the given physical flux function (flux_phys).
-%   The Lax-Wendroff scheme is a numerical method commonly used for solving
-%   hyperbolic partial differential equations.
+%  
 %
 % Authors: [Francesco Sala, Nicolo' Viscusi]
 % December 2023
@@ -34,8 +33,6 @@ F = 0.5 * (flux_phys(u) + flux_phys(v) - k / delta_x * ...
         f_prime = [0, 1;
             -m.^2./(h.^2) + g*h, 2 * m./h  ];
     end
-
-
 end
 
 
